@@ -23,13 +23,14 @@ function update_title() {
 
 # called just before the prompt is printed
 function _zsh_title__precmd() {
-  update_title "zsh" "%20<...<%~"
+  # update_title "zsh" "%20<...<%~"
+  update_title $(hostname -s) "%20<...<%~"
 }
 
 # called just before a command is executed
 function _zsh_title__preexec() {
   local -a cmd
-  
+
   # Escape '\'
   1=${1//\\/\\\\\\\\}
 
@@ -40,7 +41,10 @@ function _zsh_title__preexec() {
     fg)	cmd="${(z)jobtexts[${(Q)cmd[2]:-%+}]}" ;;
     %*)	cmd="${(z)jobtexts[${(Q)cmd[1]:-%+}]}" ;;
   esac
-  update_title "$cmd" "%20<...<%~"
+  # Previously:
+  # update_title "$cmd" "%20<...<%~"
+  hostname=$(hostname -s)
+  update_title "$hostname" "$cmd"
 }
 
 autoload -Uz add-zsh-hook
