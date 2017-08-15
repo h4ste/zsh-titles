@@ -34,7 +34,8 @@ function _zsh_title__preexec() {
   # Escape '\'
   1=${1//\\/\\\\\\\\}
 
-  cmd=(${(z)1})             # Re-parse the command line
+  #cmd=(${(z)1})             # Re-parse the command line
+  cmd=${1[(wr)^(*=*|sudo|ssh|mosh|rake|-*)]:gs/%/%%}
 
   # Construct a command that will output the desired job number.
   case $cmd[1] in
